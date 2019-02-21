@@ -5,22 +5,20 @@ const app = express()
 
 const PORT = process.env.PORT || 3000;
 
-let VIDEO_PLAYER_SERVICE_URL;
+const VIDEO_PLAYER_SERVICE_URL = 'http://fec-ks-video-player.hussx9vrbw.us-west-2.elasticbeanstalk.com/';
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'))
 })
 
 app.get('/video-player-service/api/get-video', (req, res) => {
-  VIDEO_PLAYER_SERVICE_URL = 'http://localhost:3001/video-player-service/api/get-video'
-  request(VIDEO_PLAYER_SERVICE_URL, function (serviceError, serviceResponse, serviceResponseBody) {
+  request(`${VIDEO_PLAYER_SERVICE_URL}video-player-service/api/get-video`, function (serviceError, serviceResponse, serviceResponseBody) {
     res.send(serviceResponseBody)
   })
 })
 
 app.get('/video-player-service/assets/:asset', (req, res) => {
-  VIDEO_PLAYER_SERVICE_URL = `http://localhost:3001/assets/${req.params.asset}`
-  request(VIDEO_PLAYER_SERVICE_URL, function (serviceError, serviceResponse, serviceResponseBody) {
+  request(`${VIDEO_PLAYER_SERVICE_URL}/assets/${req.params.asset}`, function (serviceError, serviceResponse, serviceResponseBody) {
     res.setHeader('Content-Type', 'text/css');
     res.send(serviceResponseBody)
   })
