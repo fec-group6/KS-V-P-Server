@@ -1,50 +1,36 @@
 const request = require('request')
+const path = require('path')
 const express = require('express')
 const app = express()
 
-const port = require('../config/portNumbers.config.js');
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static('public'))
+let VIDEO_PLAYER_SERVICE_URL;
 
-app.get('/video-player-service-proxy', (req, res) => {
-  const urlRoot = req.get('host').split(':')[0]
-  const fullUrl = 'http://' + urlRoot + ':' + port.videoPlayer +'/video-player-service/api/get-video';
-  request(fullUrl, function (error, response, body) {
-    res.send(200, body)
-  });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'))
 })
 
 app.get('/video-player-service/api/get-video', (req, res) => {
-  res.redirect('/video-player-service-proxy')
+  VIDEO_PLAYER_SERVICE_URL = 'http://localhost:3001/video-player-service/api/get-video'
+  request(VIDEO_PLAYER_SERVICE_URL, function (serviceError, serviceResponse, serviceResponseBody) {
+    res.send(serviceResponseBody)
+  })
 })
 
-app.get('/video-player/bundle.js', (req, res) => {
-  const urlRoot = req.get('host').split(':')[0]
-  const fullUrl = 'http://' + urlRoot + ':' + port.videoPlayer +'/bundle.js';
-  request(fullUrl, function (error, response, body) {
-    res.send(200, body)
-  });
+app.get('/video-player-service/assets/:asset', (req, res) => {
+  VIDEO_PLAYER_SERVICE_URL = `http://localhost:3001/assets/${req.params.asset}`
+  request(VIDEO_PLAYER_SERVICE_URL, function (serviceError, serviceResponse, serviceResponseBody) {
+    res.setHeader('Content-Type', 'text/css');
+    res.send(serviceResponseBody)
+  })
 })
 
-app.get('/video-player/style.css', (req, res) => {
-  const urlRoot = req.get('host').split(':')[0]
-  const fullUrl = 'http://' + urlRoot + ':' + port.videoPlayer +'/style.css';
-  request(fullUrl, function (error, response, body) {
-    res.send(200, body)
-  });
-})
-// app.get('/video-list/bundle.js', (req, res) => {
-// })
-
-// app.get('/comments/bundle.js', (req, res) => {
-// })
-
-
-// catch-all
 app.get('*', (req, res) => {
   console.log(`Serving GET request on path: ${req.path}`)
-  res.send(404, 'This page does not exist! Please try another URL, or go back to home page!')
+  res.status(404).status('This page does not exist! Please try another URL, or go back to home page!')
 })
-const server = app.listen(port.proxy, () => { console.log(`Proxy listening on port ${port.proxy}!`) })
+
+const server = app.listen(PORT, () => { console.log(`Proxy listening on port ${PORT}!`) })
 
 module.exports = server;

@@ -8,12 +8,14 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "start": "npm run runVideoPlayer && nodemon server/index.js",
-    "runVideoPlayer": "cd ../KS-V-P-Service && npm run runAll",
-    "stopEverything": "kill -2 `pgrep mongo` || true && ../KS-V-P-Service/node_modules/forever/bin/forever stopall"
+    "start-dev": "nodemon start server/index.js",
+    "runDev": "nodemon server/index.js",
+    "start": "forever start server/index.js",
+    "stopForever": "forever stopall"
   },
   "dependencies": {
     "express": "^4.16.4",
+    "forever": "^0.15.3",
     "request": "^2.88.0"
   },
   "devDependencies": {
