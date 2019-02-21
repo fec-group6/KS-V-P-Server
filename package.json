@@ -8,8 +8,13 @@
     "node": ">=6.13.0"
   },
   "scripts": {
+    "start": "npm run runVideoPlayer && nodemon server/index.js",
+    "runVideoPlayer": "cd ../KS-V-P-Service && npm run runAll",
+    "stopEverything": "kill -2 `pgrep mongo` || true && ../KS-V-P-Service/node_modules/forever/bin/forever stopall"
   },
   "dependencies": {
+    "express": "^4.16.4",
+    "request": "^2.88.0"
   },
   "devDependencies": {
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"

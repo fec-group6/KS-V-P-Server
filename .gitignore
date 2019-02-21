@@ -1,0 +1,6 @@
+node_modules
+.DS_Store
+config/youtube.config.js
+sampleYouTubeResponse.js
+public/bundle.js
+mongod.log
