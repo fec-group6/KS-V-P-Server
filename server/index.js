@@ -5,13 +5,13 @@ const app = express()
 
 const PORT = process.env.PORT || 3000;
 
-// const VIDEO_PLAYER_SERVICE_URL = 'http://fec-ks-video-player.hussx9vrbw.us-west-2.elasticbeanstalk.com';
-// const VIDEO_LIST_SERVICE_URL = 'http://video-list-service-dev.us-west-2.elasticbeanstalk.com';
-// const COMMENTS_SERVICE_URL = 'http://comments-service-dev.us-west-2.elasticbeanstalk.com';
+const VIDEO_PLAYER_SERVICE_URL = 'http://fec-ks-video-player.hussx9vrbw.us-west-2.elasticbeanstalk.com';
+const VIDEO_LIST_SERVICE_URL = 'http://video-list-service-dev.us-west-2.elasticbeanstalk.com';
+const COMMENTS_SERVICE_URL = 'http://comments-service-dev.us-west-2.elasticbeanstalk.com';
 
-const VIDEO_PLAYER_SERVICE_URL = 'http://localhost:3001';
-const VIDEO_LIST_SERVICE_URL = 'http://localhost:3002';
-const COMMENTS_SERVICE_URL = 'http://localhost:3003';
+// const VIDEO_PLAYER_SERVICE_URL = 'http://localhost:3001';
+// const VIDEO_LIST_SERVICE_URL = 'http://localhost:3002';
+// const COMMENTS_SERVICE_URL = 'http://localhost:3003';
 
 app.use('/images', express.static(path.join(__dirname, '../public/images')));
 
